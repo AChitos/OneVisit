@@ -173,7 +173,12 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full bg-white rounded-lg shadow-lg overflow-hidden">
+      <motion.div 
+        className="max-w-2xl w-full bg-white rounded-lg shadow-lg overflow-hidden"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="bg-primary-600 px-6 py-4">
           <h1 className="text-2xl font-bold text-white">Welcome to OneVisit</h1>
           <p className="text-primary-100">Join our community and get personalized offers!</p>
