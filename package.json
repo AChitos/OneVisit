@@ -14,7 +14,15 @@
     "db:seed": "node prisma/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["qr-code", "customer-onboarding", "messaging", "sms", "whatsapp", "analytics", "saas"],
+  "keywords": [
+    "qr-code",
+    "customer-onboarding",
+    "messaging",
+    "sms",
+    "whatsapp",
+    "analytics",
+    "saas"
+  ],
   "author": "OneVisit Team",
   "license": "ISC",
   "dependencies": {
@@ -22,6 +30,7 @@
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.8.2",
     "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
