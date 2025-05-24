@@ -157,10 +157,10 @@ const itemVariants = {
 export default function DashboardOverview() {
   const getColorClasses = (color: string) => {
     const colors = {
-      blue: 'bg-blue-500 text-blue-600 bg-blue-50 border-blue-200',
-      green: 'bg-green-500 text-green-600 bg-green-50 border-green-200',
-      purple: 'bg-purple-500 text-purple-600 bg-purple-50 border-purple-200',
-      orange: 'bg-orange-500 text-orange-600 bg-orange-50 border-orange-200',
+      blue: 'from-blue-500 to-blue-600 text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200',
+      green: 'from-green-500 to-green-600 text-green-600 bg-gradient-to-br from-green-50 to-green-100 border-green-200',
+      purple: 'from-purple-500 to-purple-600 text-purple-600 bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200',
+      orange: 'from-orange-500 to-orange-600 text-orange-600 bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200',
     }
     return colors[color as keyof typeof colors] || colors.blue
   }
@@ -172,120 +172,189 @@ export default function DashboardOverview() {
       animate="visible"
       className="space-y-8"
     >
-    type: 'campaign',
-    content: 'Happy Hour campaign sent to 234 customers',
-    time: '1 hour ago',
-  },
-  {
-    id: 3,
-    type: 'event',
-    content: 'Live Jazz Night event created for this Friday',
-    time: '3 hours ago',
-  },
-  {
-    id: 4,
-    type: 'qr',
-    content: 'QR code "Table 7" scanned 15 times today',
-    time: '5 hours ago',
-  },
-]
-
-export default function DashboardOverview() {
-  return (
-    <div className="space-y-6">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((item) => (
-          <div key={item.name} className="card">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <item.icon className="h-8 w-8 text-gray-400" aria-hidden="true" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">{item.name}</dt>
-                  <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-gray-900">{item.stat}</div>
-                    <div
-                      className={`ml-2 flex items-baseline text-sm font-semibold ${
+      <motion.div variants={itemVariants} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((item, index) => {
+          const colorClasses = getColorClasses(item.color)
+          return (
+            <motion.div
+              key={item.name}
+              variants={itemVariants}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 transition-all duration-300 hover:shadow-xl"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <div className={`inline-flex rounded-xl p-3 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')}`}>
+                    <item.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-sm font-medium text-gray-500">{item.name}</h3>
+                    <p className="text-3xl font-bold text-gray-900 mt-1">{item.stat}</p>
+                    <div className="flex items-center mt-2">
+                      <div className={`flex items-center text-sm font-semibold ${
                         item.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
-                      }`}
-                    >
-                      {item.changeType === 'increase' ? (
-                        <ArrowUpIcon className="self-center flex-shrink-0 h-4 w-4 text-green-500" />
-                      ) : (
-                        <ArrowDownIcon className="self-center flex-shrink-0 h-4 w-4 text-red-500" />
-                      )}
-                      <span className="sr-only">{item.changeType === 'increase' ? 'Increased' : 'Decreased'} by</span>
-                      {item.change}
+                      }`}>
+                        {item.changeType === 'increase' ? (
+                          <ArrowUpIcon className="h-4 w-4 mr-1" />
+                        ) : (
+                          <ArrowDownIcon className="h-4 w-4 mr-1" />
+                        )}
+                        {item.change}
+                      </div>
+                      <span className="text-sm text-gray-500 ml-2">{item.description}</span>
                     </div>
-                  </dd>
-                </dl>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )
+        })}
+      </motion.div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Performance Chart */}
+        <motion.div variants={itemVariants} className="col-span-2">
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Performance Overview</h3>
+              <div className="flex space-x-2">
+                <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                  Customers
+                </span>
+                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                  Messages
+                </span>
               </div>
             </div>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="colorCustomers" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="colorMessages" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis dataKey="name" className="text-gray-600" />
+                  <YAxis className="text-gray-600" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'white', 
+                      border: 'none', 
+                      borderRadius: '12px', 
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' 
+                    }} 
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="customers" 
+                    stroke="#3B82F6" 
+                    fillOpacity={1} 
+                    fill="url(#colorCustomers)" 
+                    strokeWidth={3}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="messages" 
+                    stroke="#10B981" 
+                    fillOpacity={1} 
+                    fill="url(#colorMessages)" 
+                    strokeWidth={3}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        ))}
+        </motion.div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
-        <div className="card">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium text-gray-900">Recent Activity</h3>
-            <button className="text-sm text-primary-600 hover:text-primary-700">View all</button>
+        <motion.div variants={itemVariants}>
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 flex items-center">
+                <Activity className="h-5 w-5 mr-2 text-gray-600" />
+                Recent Activity
+              </h3>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              >
+                View all
+              </motion.button>
+            </div>
+            <div className="space-y-4">
+              {recentActivity.map((activity, index) => {
+                const colorClasses = getColorClasses(activity.color)
+                return (
+                  <motion.div
+                    key={activity.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start space-x-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div className={`flex-shrink-0 rounded-lg p-2 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')}`}>
+                      <activity.icon className="h-4 w-4 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{activity.content}</p>
+                      <div className="flex items-center mt-1">
+                        <Clock className="h-3 w-3 text-gray-400 mr-1" />
+                        <p className="text-xs text-gray-500">{activity.time}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
-          <div className="space-y-3">
-            {recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-start space-x-3">
-                <div className="flex-shrink-0">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full mt-2"></div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-900">{activity.content}</p>
-                  <p className="text-xs text-gray-500">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        </motion.div>
 
         {/* Quick Actions */}
-        <div className="card">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            <button className="w-full text-left p-3 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center">
-                <QrCodeIcon className="h-5 w-5 text-gray-400 mr-3" />
-                <span className="text-sm font-medium text-gray-900">Generate New QR Code</span>
-              </div>
-            </button>
-            <button className="w-full text-left p-3 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center">
-                <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400 mr-3" />
-                <span className="text-sm font-medium text-gray-900">Create Campaign</span>
-              </div>
-            </button>
-            <button className="w-full text-left p-3 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center">
-                <UserGroupIcon className="h-5 w-5 text-gray-400 mr-3" />
-                <span className="text-sm font-medium text-gray-900">View Customers</span>
-              </div>
-            </button>
+        <motion.div variants={itemVariants}>
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+              <Zap className="h-5 w-5 mr-2 text-gray-600" />
+              Quick Actions
+            </h3>
+            <div className="space-y-3">
+              {quickActions.map((action, index) => {
+                const colorClasses = getColorClasses(action.color)
+                return (
+                  <motion.button
+                    key={action.name}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={action.action}
+                    className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+                  >
+                    <div className="flex items-center">
+                      <div className={`rounded-lg p-2 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')} group-hover:scale-110 transition-transform duration-200`}>
+                        <action.icon className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="ml-4">
+                        <span className="text-sm font-semibold text-gray-900">{action.name}</span>
+                        <p className="text-xs text-gray-500 mt-1">{action.description}</p>
+                      </div>
+                    </div>
+                  </motion.button>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* Performance Chart Placeholder */}
-      <div className="card">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Performance Overview</h3>
-        <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <ChartBarIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <p className="text-gray-500">Chart component will be implemented here</p>
-            <p className="text-sm text-gray-400">Customer acquisition, message delivery rates, engagement metrics</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    </motion.div>
   )
 }
