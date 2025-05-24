@@ -20,7 +20,9 @@ import {
   Edit,
   Trash2,
   Download,
-  X
+  X,
+  UserCheck,
+  MessageSquare
 } from 'lucide-react'
 import { Customer, Gender } from '@/types'
 import { formatDate, formatPhone, getInitials } from '@/utils/helpers'
@@ -32,6 +34,28 @@ interface CustomerFilters {
   visitFrequency: string
   spendingRange: string
   dateRange: string
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
 }
 
 export default function CustomerManager() {
