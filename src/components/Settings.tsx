@@ -22,7 +22,8 @@ import {
   ExternalLink,
   UserCog,
   Building,
-  LogOut
+  LogOut,
+  MessageCircle
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -538,7 +539,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <ChatBubbleLeftRightIcon className="h-8 w-8 text-green-600 mr-3" />
+            <MessageCircle className="h-8 w-8 text-green-600 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">WhatsApp Business</h4>
               <p className="text-sm text-gray-500">WhatsApp messaging integration</p>
