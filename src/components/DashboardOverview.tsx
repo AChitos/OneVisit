@@ -6,8 +6,8 @@ import {
   MessageSquare, 
   QrCode,
   TrendingUp,
-  ArrowUpIcon,
-  ArrowDownIcon,
+  ArrowUp,
+  ArrowDown,
   Activity,
   Clock,
   Star,
@@ -172,6 +172,16 @@ export default function DashboardOverview() {
       animate="visible"
       className="space-y-8"
     >
+      {/* Dashboard Header */}
+      <motion.div 
+        variants={itemVariants}
+        className="mb-6"
+      >
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+          Dashboard Overview
+        </h2>
+        <p className="text-gray-600">Welcome back! Here's what's happening with your business.</p>
+      </motion.div>
       {/* Stats Grid */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((item, index) => {
@@ -196,9 +206,9 @@ export default function DashboardOverview() {
                         item.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
                       }`}>
                         {item.changeType === 'increase' ? (
-                          <ArrowUpIcon className="h-4 w-4 mr-1" />
+                          <ArrowUp className="h-4 w-4 mr-1" />
                         ) : (
-                          <ArrowDownIcon className="h-4 w-4 mr-1" />
+                          <ArrowDown className="h-4 w-4 mr-1" />
                         )}
                         {item.change}
                       </div>
