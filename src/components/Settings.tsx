@@ -489,7 +489,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <DevicePhoneMobileIcon className="h-8 w-8 text-red-600 mr-3" />
+            <Smartphone className="h-8 w-8 text-red-600 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">Twilio SMS</h4>
               <p className="text-sm text-gray-500">SMS and voice messaging service</p>
