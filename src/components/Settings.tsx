@@ -63,6 +63,35 @@ const cardVariants = {
   }
 }
 
+// Form animation variants for submit buttons and transitions
+const formSubmitVariants = {
+  idle: { scale: 1 },
+  hover: { scale: 1.05 },
+  tap: { scale: 0.95 }
+}
+
+// Tab transition variants
+const tabVariants = {
+  inactive: { opacity: 0.6, y: 0 },
+  active: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 20
+    }
+  },
+  hover: { 
+    y: -2,
+    transition: { 
+      type: "spring",
+      stiffness: 500,
+      damping: 17
+    }
+  }
+}
+
 interface BusinessProfile {
   name: string
   description: string
@@ -238,17 +267,28 @@ export default function Settings() {
           </button>
         ) : (
           <div className="flex space-x-2">
-            <button onClick={handleProfileSave} className="btn-primary flex items-center">
+            <motion.button 
+              onClick={handleProfileSave} 
+              className="btn-primary flex items-center"
+              variants={formSubmitVariants}
+              initial="idle"
+              whileHover="hover"
+              whileTap="tap"
+            >
               <Check className="h-4 w-4 mr-2" />
               Save Changes
-            </button>
-            <button 
+            </motion.button>
+            <motion.button 
               onClick={() => setIsEditing(false)}
               className="btn-secondary flex items-center"
+              variants={formSubmitVariants}
+              initial="idle"
+              whileHover="hover"
+              whileTap="tap"
             >
               <X className="h-4 w-4 mr-2" />
               Cancel
-            </button>
+            </motion.button>
           </div>
         )}
       </div>
@@ -613,7 +653,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <CreditCardIcon className="h-8 w-8 text-purple-600 mr-3" />
+            <CreditCard className="h-8 w-8 text-purple-600 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">Stripe Payments</h4>
               <p className="text-sm text-gray-500">Payment processing for subscriptions</p>
@@ -659,7 +699,7 @@ export default function Settings() {
           onClick={() => setShowInviteForm(true)}
           className="btn-primary flex items-center"
         >
-          <PlusIcon className="h-4 w-4 mr-2" />
+          <Plus className="h-4 w-4 mr-2" />
           Invite Team Member
         </button>
       </div>
@@ -695,7 +735,16 @@ export default function Settings() {
               </div>
             </div>
             <div className="flex space-x-3">
-              <button type="submit" className="btn-primary">Send Invitation</button>
+              <button 
+                type="submit" 
+                className="btn-primary"
+                variants={formSubmitVariants}
+                initial="idle"
+                whileHover="hover"
+                whileTap="tap"
+              >
+                Send Invitation
+              </button>
               <button 
                 type="button" 
                 onClick={() => setShowInviteForm(false)}
@@ -762,11 +811,11 @@ export default function Settings() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
                       <button className="text-primary-600 hover:text-primary-900">
-                        <PencilIcon className="h-4 w-4" />
+                        <Edit className="h-4 w-4" />
                       </button>
                       {member.role !== 'Owner' && (
                         <button className="text-red-600 hover:text-red-900">
-                          <TrashIcon className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       )}
                     </div>
@@ -804,16 +853,16 @@ export default function Settings() {
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="py-2 px-4 text-sm text-gray-900">{row.feature}</td>
                   <td className="py-2 px-4 text-center">
-                    {row.staff ? <CheckIcon className="h-4 w-4 text-green-500 mx-auto" /> : <XMarkIcon className="h-4 w-4 text-red-500 mx-auto" />}
+                    {row.staff ? <Check className="h-4 w-4 text-green-500 mx-auto" /> : <X className="h-4 w-4 text-red-500 mx-auto" />}
                   </td>
                   <td className="py-2 px-4 text-center">
-                    {row.manager ? <CheckIcon className="h-4 w-4 text-green-500 mx-auto" /> : <XMarkIcon className="h-4 w-4 text-red-500 mx-auto" />}
+                    {row.manager ? <Check className="h-4 w-4 text-green-500 mx-auto" /> : <X className="h-4 w-4 text-red-500 mx-auto" />}
                   </td>
                   <td className="py-2 px-4 text-center">
-                    {row.admin ? <CheckIcon className="h-4 w-4 text-green-500 mx-auto" /> : <XMarkIcon className="h-4 w-4 text-red-500 mx-auto" />}
+                    {row.admin ? <Check className="h-4 w-4 text-green-500 mx-auto" /> : <X className="h-4 w-4 text-red-500 mx-auto" />}
                   </td>
                   <td className="py-2 px-4 text-center">
-                    {row.owner ? <CheckIcon className="h-4 w-4 text-green-500 mx-auto" /> : <XMarkIcon className="h-4 w-4 text-red-500 mx-auto" />}
+                    {row.owner ? <Check className="h-4 w-4 text-green-500 mx-auto" /> : <X className="h-4 w-4 text-red-500 mx-auto" />}
                   </td>
                 </tr>
               ))}
@@ -1034,10 +1083,16 @@ export default function Settings() {
   )
 
   return (
-    <div className="space-y-6">
+    <motion.div 
+      className="space-y-6"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+      <motion.div variants={itemVariants}>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-primary-700 to-gray-800 bg-clip-text text-transparent">Settings</h2>
+        <p className="text-gray-600">Manage your account, team, and integrations</p>
         <p className="text-gray-600">Manage your account and business preferences</p>
       </div>
 
@@ -1045,7 +1100,7 @@ export default function Settings() {
       <div className="bg-white border-b border-gray-200">
         <nav className="-mb-px flex space-x-8 overflow-x-auto">
           {tabs.map((tab) => (
-            <button
+            <motion.button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
@@ -1053,10 +1108,14 @@ export default function Settings() {
                   ? 'border-primary-500 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
+              variants={tabVariants}
+              initial="inactive"
+              animate={activeTab === tab.id ? "active" : "inactive"}
+              whileHover="hover"
             >
               <tab.icon className="h-5 w-5 mr-2" />
               {tab.name}
-            </button>
+            </motion.button>
           ))}
         </nav>
       </div>
