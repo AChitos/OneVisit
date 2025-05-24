@@ -569,7 +569,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <EnvelopeIcon className="h-8 w-8 text-blue-600 mr-3" />
+            <Mail className="h-8 w-8 text-blue-600 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">Email Service</h4>
               <p className="text-sm text-gray-500">Email delivery provider</p>
