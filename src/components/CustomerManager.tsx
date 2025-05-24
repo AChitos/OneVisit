@@ -1,19 +1,30 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  MagnifyingGlassIcon, 
-  PlusIcon, 
-  UserGroupIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  CalendarIcon,
-  FunnelIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/outline'
+  Search, 
+  Plus, 
+  Users,
+  Mail,
+  Phone,
+  Calendar,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  MapPin,
+  Star,
+  TrendingUp,
+  Eye,
+  Edit,
+  Trash2,
+  Download,
+  X
+} from 'lucide-react'
 import { Customer, Gender } from '@/types'
 import { formatDate, formatPhone, getInitials } from '@/utils/helpers'
+import toast from 'react-hot-toast'
 
 interface CustomerFilters {
   search: string
