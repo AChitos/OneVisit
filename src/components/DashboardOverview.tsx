@@ -224,8 +224,13 @@ export default function DashboardOverview() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Performance Chart */}
-        <motion.div variants={itemVariants} className="col-span-2">
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+        <motion.div 
+          variants={itemVariants} 
+          className="col-span-2"
+          whileHover={{ y: -5, scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-gray-900">Performance Overview</h3>
               <div className="flex space-x-2">
@@ -288,8 +293,12 @@ export default function DashboardOverview() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
-        <motion.div variants={itemVariants}>
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -5, scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-gray-900 flex items-center">
                 <Activity className="h-5 w-5 mr-2 text-gray-600" />
@@ -332,8 +341,12 @@ export default function DashboardOverview() {
         </motion.div>
 
         {/* Quick Actions */}
-        <motion.div variants={itemVariants}>
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -5, scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
             <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
               <Zap className="h-5 w-5 mr-2 text-gray-600" />
               Quick Actions
