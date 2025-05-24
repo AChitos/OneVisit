@@ -114,13 +114,17 @@ export default function DashboardPage() {
         <Header currentView={currentView} />
         
         {/* Page Content */}
-        <main className="flex-1 overflow-auto">
-          <div className="p-6">
+        <motion.main 
+          className="flex-1 overflow-auto bg-gradient-to-br from-slate-50 via-slate-50 to-blue-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="p-6 max-w-7xl mx-auto">
             <AnimatePresence mode="wait">
               {renderContent()}
             </AnimatePresence>
           </div>
-        </main>
+        </motion.main>
       </div>
     </div>
   )
