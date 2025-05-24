@@ -1,19 +1,63 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  PlusIcon, 
-  QrCodeIcon,
-  EyeIcon,
-  DocumentDuplicateIcon,
-  PencilIcon,
-  TrashIcon,
-  ChevronLeftIcon,
-  DownloadIcon,
-  PrinterIcon
-} from '@heroicons/react/24/outline'
+  Plus, 
+  QrCode,
+  Eye,
+  Copy,
+  Edit,
+  Trash2,
+  ChevronLeft,
+  Download,
+  Printer,
+  Share2,
+  BarChart3,
+  Calendar,
+  Search,
+  Filter,
+  Settings
+} from 'lucide-react'
 import { QRCode } from '@/types'
 import { formatDate, generateQRCodeId } from '@/utils/helpers'
+import toast from 'react-hot-toast'
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  }
+}
 
 interface QRCodeFormData {
   name: string
@@ -159,8 +203,7 @@ export default function QRCodeManager() {
         <button 
           onClick={() => setShowCreateForm(true)}
           className="btn-primary flex items-center mt-4 sm:mt-0"
-        >
-          <PlusIcon className="h-4 w-4 mr-2" />
+        >            <Plus className="h-4 w-4 mr-2" />
           Generate QR Code
         </button>
       </div>
@@ -169,7 +212,7 @@ export default function QRCodeManager() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="card">
           <div className="flex items-center">
-            <QrCodeIcon className="h-8 w-8 text-blue-500" />
+            <QrCode className="h-8 w-8 text-blue-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total QR Codes</p>
               <p className="text-2xl font-semibold text-gray-900">{qrCodes.length}</p>
@@ -178,7 +221,7 @@ export default function QRCodeManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <EyeIcon className="h-8 w-8 text-green-500" />
+            <Eye className="h-8 w-8 text-green-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Active QR Codes</p>
               <p className="text-2xl font-semibold text-gray-900">
