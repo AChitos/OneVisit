@@ -1012,7 +1012,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <ShieldCheckIcon className="h-8 w-8 text-green-600 mr-3" />
+            <ShieldCheck className="h-8 w-8 text-green-600 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">Two-Factor Authentication</h4>
               <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
