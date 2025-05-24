@@ -191,11 +191,11 @@ export default function CustomerManager() {
             onClick={() => setShowFilters(!showFilters)}
             className="btn-secondary flex items-center"
           >
-            <FunnelIcon className="h-4 w-4 mr-2" />
+            <Filter className="h-4 w-4 mr-2" />
             Filters
           </button>
           <button className="btn-primary flex items-center">
-            <PlusIcon className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2" />
             Add Customer
           </button>
         </div>
@@ -205,7 +205,7 @@ export default function CustomerManager() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="card">
           <div className="flex items-center">
-            <UserGroupIcon className="h-8 w-8 text-blue-500" />
+            <Users className="h-8 w-8 text-blue-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total Customers</p>
               <p className="text-2xl font-semibold text-gray-900">{customers.length}</p>
@@ -214,7 +214,7 @@ export default function CustomerManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <CalendarIcon className="h-8 w-8 text-green-500" />
+            <Calendar className="h-8 w-8 text-green-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">New This Month</p>
               <p className="text-2xl font-semibold text-gray-900">12</p>
@@ -223,7 +223,7 @@ export default function CustomerManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <PhoneIcon className="h-8 w-8 text-purple-500" />
+            <Phone className="h-8 w-8 text-purple-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">SMS Consent</p>
               <p className="text-2xl font-semibold text-gray-900">
@@ -234,7 +234,7 @@ export default function CustomerManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <EnvelopeIcon className="h-8 w-8 text-orange-500" />
+            <Mail className="h-8 w-8 text-orange-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Email Provided</p>
               <p className="text-2xl font-semibold text-gray-900">
@@ -249,7 +249,7 @@ export default function CustomerManager() {
       <div className="space-y-4">
         <div className="flex items-center space-x-4">
           <div className="flex-1 relative">
-            <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search customers by name, phone, or email..."
@@ -443,7 +443,7 @@ export default function CustomerManager() {
                         disabled={currentPage === 1}
                         className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <ChevronLeftIcon className="h-5 w-5" />
+                        <ChevronLeft className="h-5 w-5" />
                       </button>
                       {[...Array(totalPages)].map((_, i) => (
                         <button
@@ -463,7 +463,7 @@ export default function CustomerManager() {
                         disabled={currentPage === totalPages}
                         className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <ChevronRightIcon className="h-5 w-5" />
+                        <ChevronRight className="h-5 w-5" />
                       </button>
                     </nav>
                   </div>
@@ -487,7 +487,7 @@ function CustomerDetail({ customer, onBack }: { customer: Customer; onBack: () =
             onClick={onBack}
             className="btn-secondary mr-4 flex items-center"
           >
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-2" />
             Back
           </button>
           <h2 className="text-2xl font-bold text-gray-900">{customer.name}</h2>
