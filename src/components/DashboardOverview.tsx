@@ -191,16 +191,23 @@ export default function DashboardOverview() {
               key={item.name}
               variants={itemVariants}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 transition-all duration-300 hover:shadow-xl"
+              className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
             >
-              <div className="flex items-center justify-between">
+              <div className="absolute top-0 right-0 h-24 w-24 -mt-8 -mr-8 opacity-20">
+                <item.icon className="h-full w-full" style={{ color: `var(--${item.color}-500)` }} />
+              </div>
+              <div className="flex items-center justify-between relative z-10">
                 <div className="flex-1">
                   <div className={`inline-flex rounded-xl p-3 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')}`}>
                     <item.icon className="h-6 w-6 text-white" />
                   </div>
                   <div className="mt-4">
                     <h3 className="text-sm font-medium text-gray-500">{item.name}</h3>
-                    <p className="text-3xl font-bold text-gray-900 mt-1">{item.stat}</p>
+                    <p className="text-3xl font-bold text-gray-900 mt-1">
+                      <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                        {item.stat}
+                      </span>
+                    </p>
                     <div className="flex items-center mt-2">
                       <div className={`flex items-center text-sm font-semibold ${
                         item.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
@@ -230,59 +237,74 @@ export default function DashboardOverview() {
           whileHover={{ y: -5, scale: 1.01 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
+          <div className="rounded-2xl bg-white p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Performance Overview</h3>
+              <h3 className="text-xl font-semibold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent">Performance Overview</h3>
               <div className="flex space-x-2">
-                <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                <motion.span 
+                  whileHover={{ scale: 1.05 }}
+                  className="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-xs font-medium text-primary-800 border border-primary-200"
+                >
+                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-2"></div>
                   Customers
-                </span>
-                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                </motion.span>
+                <motion.span 
+                  whileHover={{ scale: 1.05 }}
+                  className="inline-flex items-center rounded-full bg-success-100 px-3 py-1 text-xs font-medium text-success-800 border border-success-200"
+                >
+                  <div className="w-2 h-2 bg-success rounded-full mr-2"></div>
                   Messages
-                </span>
+                </motion.span>
               </div>
             </div>
-            <div className="h-80">
+            <div className="h-80 bg-gradient-to-br from-gray-50 to-white p-4 rounded-xl">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData}>
                   <defs>
                     <linearGradient id="colorCustomers" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--primary-500)" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="var(--primary-500)" stopOpacity={0}/>
                     </linearGradient>
                     <linearGradient id="colorMessages" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--success)" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="name" className="text-gray-600" />
-                  <YAxis className="text-gray-600" />
+                  <XAxis dataKey="name" className="text-gray-600" tickLine={false} axisLine={false} />
+                  <YAxis className="text-gray-600" tickLine={false} axisLine={false} />
                   <Tooltip 
                     contentStyle={{ 
                       backgroundColor: 'white', 
-                      border: 'none', 
+                      border: '1px solid #e5e7eb',
                       borderRadius: '12px', 
-                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' 
-                    }} 
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                      padding: '12px'
+                    }}
+                    labelStyle={{
+                      fontWeight: 'bold',
+                      marginBottom: '8px',
+                      borderBottom: '1px solid #f1f5f9',
+                      paddingBottom: '4px'
+                    }}
                   />
                   <Area 
                     type="monotone" 
                     dataKey="customers" 
-                    stroke="#3B82F6" 
+                    stroke="var(--primary-500)" 
                     fillOpacity={1} 
                     fill="url(#colorCustomers)" 
                     strokeWidth={3}
+                    activeDot={{ r: 6, stroke: 'white', strokeWidth: 2 }}
                   />
                   <Area 
                     type="monotone" 
                     dataKey="messages" 
-                    stroke="#10B981" 
+                    stroke="var(--success)" 
                     fillOpacity={1} 
                     fill="url(#colorMessages)" 
                     strokeWidth={3}
+                    activeDot={{ r: 6, stroke: 'white', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
