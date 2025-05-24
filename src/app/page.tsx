@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  ChartBarIcon, 
-  QrCodeIcon, 
-  UserGroupIcon, 
-  ChatBubbleLeftRightIcon,
-  CalendarIcon,
-  CogIcon
-} from '@heroicons/react/24/outline'
+  BarChart3, 
+  QrCode, 
+  Users, 
+  MessageSquare,
+  Calendar,
+  Settings as SettingsIcon
+} from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
 import DashboardOverview from '@/components/DashboardOverview'
@@ -21,25 +21,51 @@ import Analytics from '@/components/Analytics'
 import Settings from '@/components/Settings'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: ChartBarIcon, current: true },
-  { name: 'Customers', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Campaigns', href: '#', icon: ChatBubbleLeftRightIcon, current: false },
-  { name: 'QR Codes', href: '#', icon: QrCodeIcon, current: false },
-  { name: 'Events', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Analytics', href: '#', icon: ChartBarIcon, current: false },
-  { name: 'Settings', href: '#', icon: CogIcon, current: false },
+  { name: 'Dashboard', href: '#', icon: BarChart3, current: true },
+  { name: 'Customers', href: '#', icon: Users, current: false },
+  { name: 'Campaigns', href: '#', icon: MessageSquare, current: false },
+  { name: 'QR Codes', href: '#', icon: QrCode, current: false },
+  { name: 'Events', href: '#', icon: Calendar, current: false },
+  { name: 'Analytics', href: '#', icon: BarChart3, current: false },
+  { name: 'Settings', href: '#', icon: SettingsIcon, current: false },
 ]
 
 const pageVariants = {
   initial: { opacity: 0, x: 20, scale: 0.95 },
-  in: { opacity: 1, x: 0, scale: 1 },
+  in: { 
+    opacity: 1, 
+    x: 0, 
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+      when: 'beforeChildren',
+      staggerChildren: 0.1
+    }
+  },
   out: { opacity: 0, x: -20, scale: 0.95 }
 }
 
+// Child element variants for staggered animations
+const childVariants = {
+  initial: { opacity: 0, y: 20 },
+  in: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 150,
+      damping: 15
+    }
+  },
+  out: { opacity: 0, y: 20 }
+}
+
 const pageTransition = {
-  type: 'tween',
-  ease: 'anticipate',
-  duration: 0.3
+  type: 'spring',
+  stiffness: 100,
+  damping: 15
 }
 
 export default function DashboardPage() {
