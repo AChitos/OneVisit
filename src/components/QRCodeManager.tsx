@@ -17,7 +17,11 @@ import {
   Calendar,
   Search,
   Filter,
-  Settings
+  Settings,
+  Users,
+  MessageSquare,
+  Target,
+  XCircle
 } from 'lucide-react'
 import { QRCode } from '@/types'
 import { formatDate, generateQRCodeId } from '@/utils/helpers'
@@ -780,149 +784,340 @@ function QRCodeDetail({
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
-    alert('Copied to clipboard!')
+    toast.success('Copied to clipboard!')
   }
 
   const downloadQRCode = () => {
     // TODO: Implement QR code download functionality
-    alert('QR code download will be implemented')
+    toast.success('QR code download will be implemented')
   }
 
   const printQRCode = () => {
     // TODO: Implement print functionality
-    alert('Print functionality will be implemented')
+    toast.success('Print functionality will be implemented')
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center">
-          <button onClick={onBack} className="btn-secondary mr-4 flex items-center">
+          <motion.button 
+            onClick={onBack} 
+            whileHover={{ scale: 1.05, x: -3 }} 
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-gray-100 to-gray-200 shadow-md hover:shadow-lg text-gray-700 mr-4 flex items-center rounded-lg px-4 py-2 transition-all duration-200"
+          >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Back
-          </button>
+          </motion.button>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">{qrCode.name}</h2>
-            <p className="text-gray-600">{qrCode.description}</p>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent">
+              {qrCode.name}
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">{qrCode.description || 'No description provided'}</p>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <button onClick={downloadQRCode} className="btn-secondary flex items-center">
+        <div className="flex items-center space-x-3 mt-4 sm:mt-0">
+          <motion.button 
+            onClick={downloadQRCode} 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-gray-100 to-gray-200 shadow-md hover:shadow-lg text-gray-700 flex items-center rounded-lg px-3 py-2 transition-all duration-200"
+          >
             <Download className="h-4 w-4 mr-2" />
             Download
-          </button>
-          <button onClick={printQRCode} className="btn-secondary flex items-center">
+          </motion.button>
+          <motion.button 
+            onClick={printQRCode} 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-gray-100 to-gray-200 shadow-md hover:shadow-lg text-gray-700 flex items-center rounded-lg px-3 py-2 transition-all duration-200"
+          >
             <Printer className="h-4 w-4 mr-2" />
             Print
-          </button>
-          <button onClick={onToggleActive} className="btn-primary">
+          </motion.button>
+          <motion.button 
+            onClick={onToggleActive} 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            className={`${
+              qrCode.isActive 
+                ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                : 'bg-gradient-to-r from-green-500 to-green-600'
+            } text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center`}
+          >
+            <div className="bg-white/20 rounded-full p-1 mr-2">
+              {qrCode.isActive ? (
+                <XCircle className="h-3 w-3" />
+              ) : (
+                <QrCode className="h-3 w-3" />
+              )}
+            </div>
             {qrCode.isActive ? 'Deactivate' : 'Activate'}
-          </button>
+          </motion.button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* QR Code Display */}
-        <div className="card">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">QR Code</h3>
-          <div className="text-center">
-            <div className="w-64 h-64 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <QrCode className="h-32 w-32 text-gray-400" />
+        <motion.div 
+          className="overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
+          whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+        >
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 text-white">
+              <QrCode className="h-5 w-5" />
             </div>
-            <div className="space-y-2">
-              <button 
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              QR Code
+            </h3>
+          </div>
+          <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="relative w-64 h-64 bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-100 rounded-lg flex items-center justify-center mx-auto mb-6 shadow-md"
+            >
+              <motion.div
+                animate={{ 
+                  opacity: [0.8, 1, 0.8],
+                  scale: [0.98, 1, 0.98]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <QrCode className={`h-32 w-32 ${qrCode.isActive ? 'text-primary-500' : 'text-gray-400'}`} />
+              </motion.div>
+              
+              {/* Status Indicator */}
+              <div className="absolute bottom-3 right-3">
+                <div className={`flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${
+                  qrCode.isActive 
+                    ? 'bg-green-100 text-green-800 border border-green-200' 
+                    : 'bg-gray-100 text-gray-600 border border-gray-200'
+                }`}>
+                  <span className={`h-2 w-2 rounded-full mr-1.5 ${qrCode.isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></span>
+                  {qrCode.isActive ? 'Active' : 'Inactive'}
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="flex flex-wrap justify-center gap-3">
+              <motion.button 
                 onClick={downloadQRCode}
-                className="btn-primary mr-2"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white flex items-center px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Download PNG
-              </button>
-              <button 
+              </motion.button>
+              <motion.button 
                 onClick={printQRCode}
-                className="btn-secondary"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="bg-gradient-to-r from-gray-700 to-gray-800 text-white flex items-center px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
                 <Printer className="h-4 w-4 mr-2" />
                 Print
-              </button>
+              </motion.button>
+              <motion.button 
+                onClick={() => copyToClipboard(qrCodeURL)}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="bg-gradient-to-r from-secondary-600 to-secondary-700 text-white flex items-center px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </motion.button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* QR Code Info */}
         <div className="space-y-6">
-          <div className="card">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">QR Code Information</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Status</label>
-                <div className="flex items-center mt-1">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          <motion.div 
+            className="overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
+            whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+          >
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-secondary-500 to-secondary-600 text-white">
+                <Settings className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                QR Code Information
+              </h3>
+            </div>
+            
+            <div className="space-y-5">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <div className="p-1.5 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mr-3 border border-primary-200">
+                      <QrCode className="h-5 w-5 text-primary-600" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">QR Code ID</label>
+                      <div className="flex items-center mt-0.5">
+                        <code className="text-sm text-gray-900 font-medium">{qrCode.code}</code>
+                      </div>
+                    </div>
+                  </div>
+                  <motion.button 
+                    onClick={() => copyToClipboard(qrCode.code)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-1.5 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg hover:shadow-md text-gray-600 hover:text-gray-900 transition-all duration-200"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </motion.button>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <div className="p-1.5 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg mr-3 border border-secondary-200">
+                      <Share2 className="h-5 w-5 text-secondary-600" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Landing URL</label>
+                      <div className="flex items-center mt-0.5">
+                        <code className="text-sm text-gray-900 font-medium truncate max-w-[220px]">{qrCodeURL}</code>
+                      </div>
+                    </div>
+                  </div>
+                  <motion.button 
+                    onClick={() => copyToClipboard(qrCodeURL)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-1.5 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg hover:shadow-md text-gray-600 hover:text-gray-900 transition-all duration-200"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </motion.button>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-green-700 uppercase tracking-wider">Scans</span>
+                    <Eye className="h-3 w-3 text-green-600" />
+                  </div>
+                  <p className="text-2xl font-bold text-green-800">{qrCode.scansCount}</p>
+                </div>
+                
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-blue-700 uppercase tracking-wider">Created</span>
+                    <Calendar className="h-3 w-3 text-blue-600" />
+                  </div>
+                  <p className="text-sm font-medium text-blue-800">{formatDate(qrCode.createdAt)}</p>
+                </div>
+                
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-purple-700 uppercase tracking-wider">Updated</span>
+                    <Calendar className="h-3 w-3 text-purple-600" />
+                  </div>
+                  <p className="text-sm font-medium text-purple-800">{formatDate(qrCode.updatedAt)}</p>
+                </div>
+              </div>
+              
+              <div className="pt-2">
+                <div className="flex justify-between items-center mb-3">
+                  <label className="text-sm font-medium text-gray-700">Status</label>
+                  <button 
+                    onClick={onToggleActive}
+                    className="text-xs font-medium text-primary-600 hover:text-primary-800 transition-colors duration-200"
+                  >
+                    {qrCode.isActive ? 'Deactivate' : 'Activate'} QR Code
+                  </button>
+                </div>
+                <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-100">
+                  <div className="flex items-center">
+                    <div
+                      className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
+                        qrCode.isActive ? 'bg-green-500' : 'bg-gray-300'
+                      }`}
+                      onClick={onToggleActive}
+                    >
+                      <motion.div
+                        layout
+                        className="bg-white w-4 h-4 rounded-full shadow-md"
+                        animate={{ x: qrCode.isActive ? 6 : 0 }}
+                      />
+                    </div>
+                    <label className="ml-3">
+                      <div className="text-sm font-medium text-gray-900">
+                        {qrCode.isActive ? 'Active' : 'Inactive'}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {qrCode.isActive ? 
+                          'QR code is ready for scanning' : 
+                          'QR code is disabled'
+                        }
+                      </div>
+                    </label>
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     qrCode.isActive 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
+                      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' 
+                      : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
                   }`}>
                     {qrCode.isActive ? 'Active' : 'Inactive'}
-                  </span>
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-500">QR Code ID</label>
-                <div className="flex items-center mt-1">
-                  <code className="text-sm bg-gray-100 px-2 py-1 rounded">{qrCode.code}</code>
-                  <button 
-                    onClick={() => copyToClipboard(qrCode.code)}
-                    className="ml-2 p-1 text-gray-400 hover:text-gray-600"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Landing URL</label>
-                <div className="flex items-center mt-1">
-                  <code className="text-sm bg-gray-100 px-2 py-1 rounded flex-1 truncate">
-                    {qrCodeURL}
-                  </code>
-                  <button 
-                    onClick={() => copyToClipboard(qrCodeURL)}
-                    className="ml-2 p-1 text-gray-400 hover:text-gray-600"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Total Scans</label>
-                <p className="text-2xl font-semibold text-gray-900 mt-1">{qrCode.scansCount}</p>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Created</label>
-                <p className="text-sm text-gray-900 mt-1">{formatDate(qrCode.createdAt)}</p>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Last Updated</label>
-                <p className="text-sm text-gray-900 mt-1">{formatDate(qrCode.updatedAt)}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="card">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Analytics</h3>
-            <div className="space-y-4">
-              <div className="text-center py-8 text-gray-500">
-                <QrCode className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                <p className="text-sm">Scan analytics will be displayed here</p>
-                <p className="text-xs">Daily scans, popular times, conversion rates</p>
+          <motion.div 
+            className="overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
+            whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+          >
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white">
+                <BarChart3 className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                Analytics
+              </h3>
+            </div>
+            
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 border border-gray-200 text-center relative overflow-hidden">
+              <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                <BarChart3 className="w-40 h-40 text-primary-500" />
+              </div>
+              <div className="relative z-10">
+                <div className="bg-white/70 backdrop-blur-sm w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-200">
+                  <BarChart3 className="w-8 h-8 text-primary-500" />
+                </div>
+                <p className="text-sm font-medium text-gray-700 mb-2">Analytics Dashboard Coming Soon</p>
+                <p className="text-xs text-gray-500 max-w-xs mx-auto">
+                  Track scan performance, daily usage patterns, conversion rates, and customer engagement metrics
+                </p>
+                <motion.div 
+                  animate={{ scale: [1, 1.03, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="mt-4 inline-block"
+                >
+                  <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                    Coming soon
+                  </span>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
