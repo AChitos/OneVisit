@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 
 interface FormData {
@@ -22,6 +23,29 @@ const drinkOptions = [
 const eventOptions = [
   'Live Music', 'DJ Sets', 'Comedy Shows', 'Sports Events', 'Happy Hour', 'Special Offers'
 ]
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
 
 export default function OnboardingPage() {
   const searchParams = useSearchParams()
@@ -95,18 +119,54 @@ export default function OnboardingPage() {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome aboard!</h2>
-          <p className="text-gray-600 mb-6">
+        <motion.div 
+          className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center"
+          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 100,
+            damping: 15 
+          }}
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 200, 
+              delay: 0.2 
+            }}
+          >
+            <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
+          </motion.div>
+          <motion.h2 
+            className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Welcome aboard!
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             Thank you for joining us! You'll receive special offers and event notifications via your preferred method.
-          </p>
-          <div className="bg-primary-50 rounded-lg p-4">
+          </motion.p>
+          <motion.div 
+            className="bg-primary-50 rounded-lg p-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
             <p className="text-sm text-primary-700">
               🎉 As a welcome gift, enjoy 10% off your next visit!
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     )
   }
