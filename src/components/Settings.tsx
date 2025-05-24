@@ -1,22 +1,66 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  UserIcon,
-  BuildingStorefrontIcon,
-  CogIcon,
-  BellIcon,
-  ShieldCheckIcon,
-  CreditCardIcon,
-  DevicePhoneMobileIcon,
-  EnvelopeIcon,
-  KeyIcon,
-  TrashIcon,
-  PencilIcon,
-  PlusIcon,
-  CheckIcon,
-  XMarkIcon
-} from '@heroicons/react/24/outline'
+  User,
+  Store,
+  Settings as SettingsIcon,
+  Bell,
+  ShieldCheck,
+  CreditCard,
+  Smartphone,
+  Mail,
+  Key,
+  Trash2,
+  Edit,
+  Plus,
+  Check,
+  X,
+  Save,
+  Lock,
+  ExternalLink,
+  UserCog,
+  Building,
+  LogOut
+} from 'lucide-react'
+import toast from 'react-hot-toast'
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  }
+}
 
 interface BusinessProfile {
   name: string

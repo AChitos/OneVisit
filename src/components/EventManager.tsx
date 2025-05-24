@@ -322,7 +322,7 @@ export default function EventManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <ClockIcon className="h-8 w-8 text-green-500" />
+            <Clock className="h-8 w-8 text-green-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Upcoming</p>
               <p className="text-2xl font-semibold text-gray-900">{upcomingEvents.length}</p>
@@ -331,7 +331,7 @@ export default function EventManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <UsersIcon className="h-8 w-8 text-purple-500" />
+            <Users className="h-8 w-8 text-purple-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Past Events</p>
               <p className="text-2xl font-semibold text-gray-900">{pastEvents.length}</p>
@@ -340,7 +340,7 @@ export default function EventManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <ChatBubbleLeftRightIcon className="h-8 w-8 text-orange-500" />
+            <MessageCircle className="h-8 w-8 text-orange-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Invites Sent</p>
               <p className="text-2xl font-semibold text-gray-900">1,247</p>
@@ -409,7 +409,7 @@ export default function EventManager() {
           <>
             {filteredEvents.length === 0 ? (
               <div className="text-center py-12">
-                <CalendarIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <Calendar className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No events found</h3>
                 <p className="text-gray-500 mb-6">Create your first event to engage with customers</p>
                 <button 
@@ -445,11 +445,11 @@ export default function EventManager() {
                             <p className="text-gray-600 mb-3">{event.description}</p>
                             <div className="flex items-center space-x-6 text-sm text-gray-500">
                               <div className="flex items-center">
-                                <CalendarIcon className="h-4 w-4 mr-1" />
+                                <Calendar className="h-4 w-4 mr-1" />
                                 {formatDate(event.startDate)}
                               </div>
                               <div className="flex items-center">
-                                <ClockIcon className="h-4 w-4 mr-1" />
+                                <Clock className="h-4 w-4 mr-1" />
                                 {new Date(event.startDate).toLocaleTimeString('en-US', { 
                                   hour: '2-digit', 
                                   minute: '2-digit' 
@@ -473,7 +473,7 @@ export default function EventManager() {
                             className="p-2 text-gray-400 hover:text-blue-600 rounded-md hover:bg-gray-100"
                             title="Send Invites"
                           >
-                            <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                            <MessageCircle className="h-4 w-4" />
                           </button>
                           <button 
                             onClick={(e) => {
@@ -483,7 +483,7 @@ export default function EventManager() {
                             className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100"
                             title="Edit Event"
                           >
-                            <PencilIcon className="h-4 w-4" />
+                            <Edit className="h-4 w-4" />
                           </button>
                           <button 
                             onClick={(e) => {
@@ -493,7 +493,7 @@ export default function EventManager() {
                             className="p-2 text-gray-400 hover:text-red-600 rounded-md hover:bg-gray-100"
                             title="Delete Event"
                           >
-                            <TrashIcon className="h-4 w-4" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
@@ -526,7 +526,7 @@ function EventForm({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <button onClick={onCancel} className="btn-secondary mr-4 flex items-center">
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-2" />
             Back
           </button>
           <h2 className="text-2xl font-bold text-gray-900">Create New Event</h2>
@@ -658,7 +658,7 @@ function EventDetail({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <button onClick={onBack} className="btn-secondary mr-4 flex items-center">
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-2" />
             Back
           </button>
           <div>
@@ -668,7 +668,7 @@ function EventDetail({
         </div>
         <div className="flex items-center space-x-3">
           <button className="btn-secondary flex items-center">
-            <ChatBubbleLeftRightIcon className="h-4 w-4 mr-2" />
+            <MessageCircle className="h-4 w-4 mr-2" />
             Send Invites
           </button>
           <button className="btn-secondary">Edit Event</button>

@@ -1,17 +1,62 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  ChartBarIcon,
-  UserGroupIcon,
-  ChatBubbleLeftRightIcon,
-  QrCodeIcon,
-  CalendarIcon,
-  EyeIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
-  FunnelIcon
-} from '@heroicons/react/24/outline'
+  BarChart3,
+  Users,
+  MessageCircle,
+  QrCode,
+  Calendar,
+  Eye,
+  TrendingUp,
+  TrendingDown,
+  Filter,
+  Download,
+  RefreshCw,
+  PieChart,
+  Activity,
+  Target,
+  Clock,
+  Star
+} from 'lucide-react'
+import toast from 'react-hot-toast'
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  }
+}
 
 interface AnalyticsFilter {
   dateRange: string
@@ -53,7 +98,7 @@ export default function Analytics() {
       value: '1,247',
       change: '+12.3%',
       changeType: 'increase',
-      icon: UserGroupIcon,
+      icon: Users,
       color: 'text-blue-600'
     },
     {
@@ -61,7 +106,7 @@ export default function Analytics() {
       value: '3,426',
       change: '+8.7%',
       changeType: 'increase',
-      icon: ChatBubbleLeftRightIcon,
+      icon: MessageCircle,
       color: 'text-green-600'
     },
     {
@@ -69,7 +114,7 @@ export default function Analytics() {
       value: '892',
       change: '-2.1%',
       changeType: 'decrease',
-      icon: QrCodeIcon,
+      icon: QrCode,
       color: 'text-purple-600'
     },
     {
@@ -77,7 +122,7 @@ export default function Analytics() {
       value: '24.3%',
       change: '+1.8%',
       changeType: 'increase',
-      icon: ChartBarIcon,
+      icon: BarChart3,
       color: 'text-orange-600'
     },
     {
@@ -85,7 +130,7 @@ export default function Analytics() {
       value: '8',
       change: '+3',
       changeType: 'increase',
-      icon: CalendarIcon,
+      icon: Calendar,
       color: 'text-indigo-600'
     },
     {
@@ -93,7 +138,7 @@ export default function Analytics() {
       value: '31.2%',
       change: '+4.5%',
       changeType: 'increase',
-      icon: EyeIcon,
+      icon: Eye,
       color: 'text-pink-600'
     }
   ]
@@ -220,7 +265,7 @@ export default function Analytics() {
             onClick={() => setShowFilters(!showFilters)}
             className="btn-secondary flex items-center"
           >
-            <FunnelIcon className="h-4 w-4 mr-2" />
+            <Filter className="h-4 w-4 mr-2" />
             Filters
           </button>
           <select
@@ -298,9 +343,9 @@ export default function Analytics() {
                     metric.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
                   }`}>
                     {metric.changeType === 'increase' ? (
-                      <ArrowUpIcon className="h-4 w-4 mr-1" />
+                      <TrendingUp className="h-4 w-4 mr-1" />
                     ) : (
-                      <ArrowDownIcon className="h-4 w-4 mr-1" />
+                      <TrendingDown className="h-4 w-4 mr-1" />
                     )}
                     {metric.change}
                   </div>
@@ -318,7 +363,7 @@ export default function Analytics() {
           <h3 className="text-lg font-medium text-gray-900 mb-4">Customer Growth</h3>
           <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <ChartBarIcon className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+              <BarChart3 className="mx-auto h-12 w-12 text-gray-400 mb-2" />
               <p className="text-sm text-gray-500">Customer growth chart</p>
               <p className="text-xs text-gray-400">Line chart showing new vs returning customers</p>
               <div className="mt-4 text-xs text-gray-600">
@@ -334,7 +379,7 @@ export default function Analytics() {
           <h3 className="text-lg font-medium text-gray-900 mb-4">Message Performance</h3>
           <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <ChatBubbleLeftRightIcon className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+              <MessageCircle className="mx-auto h-12 w-12 text-gray-400 mb-2" />
               <p className="text-sm text-gray-500">Message delivery chart</p>
               <p className="text-xs text-gray-400">Bar chart showing SMS, WhatsApp, Email performance</p>
               <div className="mt-4 text-xs text-gray-600">
