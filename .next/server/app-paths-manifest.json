@@ -1,6 +1,3 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/customers/onboard/route": "app/api/customers/onboard/route.js",
-  "/page": "app/page.js",
-  "/onboard/page": "app/onboard/page.js"
+  "/page": "app/page.js"
 }
