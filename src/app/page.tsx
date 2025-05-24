@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ChartBarIcon, 
   QrCodeIcon, 
@@ -10,6 +11,7 @@ import {
   CogIcon
 } from '@heroicons/react/24/outline'
 import Sidebar from '@/components/Sidebar'
+import Header from '@/components/Header'
 import DashboardOverview from '@/components/DashboardOverview'
 import CustomerManager from '@/components/CustomerManager'
 import CampaignManager from '@/components/CampaignManager'
@@ -28,29 +30,75 @@ const navigation = [
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
 ]
 
+const pageVariants = {
+  initial: { opacity: 0, x: 20, scale: 0.95 },
+  in: { opacity: 1, x: 0, scale: 1 },
+  out: { opacity: 0, x: -20, scale: 0.95 }
+}
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'anticipate',
+  duration: 0.3
+}
+
 export default function DashboardPage() {
   const [currentView, setCurrentView] = useState('Dashboard')
 
   const renderContent = () => {
-    switch (currentView) {
-      case 'Dashboard':
-        return <DashboardOverview />
-      case 'Customers':
-        return <CustomerManager />
-      case 'Campaigns':
-        return <CampaignManager />
-      case 'QR Codes':
-        return <QRCodeManager />
-      case 'Events':
-        return <EventManager />
-      case 'Analytics':
-        return <Analytics />
-      case 'Settings':
-        return <Settings />
-      default:
-        return <DashboardOverview />
+    const components = {
+      'Dashboard': DashboardOverview,
+      'Customers': CustomerManager,
+      'Campaigns': CampaignManager,
+      'QR Codes': QRCodeManager,
+      'Events': EventManager,
+      'Analytics': Analytics,
+      'Settings': Settings
     }
+    
+    const Component = components[currentView as keyof typeof components] || DashboardOverview
+    
+    return (
+      <motion.div
+        key={currentView}
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+        className="h-full"
+      >
+        <Component />
+      </motion.div>
+    )
   }
+
+  return (
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Sidebar */}
+      <Sidebar 
+        navigation={navigation} 
+        currentView={currentView} 
+        setCurrentView={setCurrentView} 
+      />
+      
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <Header currentView={currentView} />
+        
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto">
+          <div className="p-6">
+            <AnimatePresence mode="wait">
+              {renderContent()}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

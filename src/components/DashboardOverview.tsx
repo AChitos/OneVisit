@@ -1,13 +1,23 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { 
-  UserGroupIcon, 
-  ChatBubbleLeftRightIcon, 
-  QrCodeIcon,
-  ChartBarIcon,
+  Users, 
+  MessageSquare, 
+  QrCode,
+  TrendingUp,
   ArrowUpIcon,
-  ArrowDownIcon
-} from '@heroicons/react/24/outline'
+  ArrowDownIcon,
+  Activity,
+  Clock,
+  Star,
+  Zap,
+  Target,
+  Calendar,
+  Eye,
+  UserPlus
+} from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 
 const stats = [
   {
@@ -15,40 +25,153 @@ const stats = [
     stat: '1,247',
     change: '12%',
     changeType: 'increase',
-    icon: UserGroupIcon,
+    icon: Users,
+    color: 'blue',
+    description: 'New customers this month'
   },
   {
     name: 'Messages Sent',
     stat: '3,426',
     change: '5.4%',
     changeType: 'increase',
-    icon: ChatBubbleLeftRightIcon,
+    icon: MessageSquare,
+    color: 'green',
+    description: 'Total messages delivered'
   },
   {
     name: 'QR Code Scans',
     stat: '892',
     change: '3.2%',
     changeType: 'decrease',
-    icon: QrCodeIcon,
+    icon: QrCode,
+    color: 'purple',
+    description: 'Scans in the last 7 days'
   },
   {
     name: 'Conversion Rate',
     stat: '24.3%',
     change: '1.2%',
     changeType: 'increase',
-    icon: ChartBarIcon,
+    icon: Target,
+    color: 'orange',
+    description: 'QR to customer conversion'
   },
+]
+
+const chartData = [
+  { name: 'Jan', customers: 400, messages: 800 },
+  { name: 'Feb', customers: 580, messages: 1200 },
+  { name: 'Mar', customers: 720, messages: 1400 },
+  { name: 'Apr', customers: 890, messages: 1800 },
+  { name: 'May', customers: 1247, messages: 2200 },
 ]
 
 const recentActivity = [
   {
     id: 1,
     type: 'customer',
+    icon: UserPlus,
     content: 'New customer Sarah Johnson signed up via QR code',
     time: '2 minutes ago',
+    color: 'green'
   },
   {
     id: 2,
+    type: 'campaign',
+    icon: MessageSquare,
+    content: 'Campaign "Summer Sale" sent to 156 customers',
+    time: '15 minutes ago',
+    color: 'blue'
+  },
+  {
+    id: 3,
+    type: 'qr',
+    icon: QrCode,
+    content: 'QR code for "Restaurant Menu" scanned 23 times',
+    time: '1 hour ago',
+    color: 'purple'
+  },
+  {
+    id: 4,
+    type: 'analytics',
+    icon: TrendingUp,
+    content: 'Monthly report generated successfully',
+    time: '2 hours ago',
+    color: 'orange'
+  },
+]
+
+const quickActions = [
+  {
+    name: 'Create Campaign',
+    description: 'Send messages to customers',
+    icon: MessageSquare,
+    color: 'blue',
+    action: () => {}
+  },
+  {
+    name: 'Generate QR Code',
+    description: 'Create new QR code',
+    icon: QrCode,
+    color: 'purple',
+    action: () => {}
+  },
+  {
+    name: 'Add Customer',
+    description: 'Manually add customer',
+    icon: UserPlus,
+    color: 'green',
+    action: () => {}
+  },
+  {
+    name: 'View Analytics',
+    description: 'Check performance',
+    icon: TrendingUp,
+    color: 'orange',
+    action: () => {}
+  },
+]
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+export default function DashboardOverview() {
+  const getColorClasses = (color: string) => {
+    const colors = {
+      blue: 'bg-blue-500 text-blue-600 bg-blue-50 border-blue-200',
+      green: 'bg-green-500 text-green-600 bg-green-50 border-green-200',
+      purple: 'bg-purple-500 text-purple-600 bg-purple-50 border-purple-200',
+      orange: 'bg-orange-500 text-orange-600 bg-orange-50 border-orange-200',
+    }
+    return colors[color as keyof typeof colors] || colors.blue
+  }
+
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
     type: 'campaign',
     content: 'Happy Hour campaign sent to 234 customers',
     time: '1 hour ago',
