@@ -543,98 +543,226 @@ function QRCodeForm({
   onSubmit: (e: React.FormEvent) => void
   onCancel: () => void
 }) {
+  
+  const getColorClass = (isActive: boolean) => {
+    return isActive 
+      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' 
+      : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white';
+  }
+
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <button onClick={onCancel} className="btn-secondary mr-4 flex items-center">
+          <motion.button 
+            onClick={onCancel} 
+            whileHover={{ scale: 1.05, x: -3 }} 
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-gray-100 to-gray-200 shadow-md hover:shadow-lg text-gray-700 mr-4 flex items-center rounded-lg px-4 py-2 transition-all duration-200"
+          >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Back
-          </button>
-          <h2 className="text-2xl font-bold text-gray-900">Generate New QR Code</h2>
+          </motion.button>
+          <div>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent">
+              Generate New QR Code
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Create a unique QR code for your business needs
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Form */}
-        <div className="card">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">QR Code Details</h3>
-          <form onSubmit={onSubmit} className="space-y-4">
+        <motion.div 
+          className="overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
+          whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+        >
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 text-white">
+              <QrCode className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              QR Code Details
+            </h3>
+          </div>
+          
+          <form onSubmit={onSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <span className="bg-gradient-to-r from-primary-600 to-primary-700 h-4 w-1 rounded-full mr-2"></span>
                 QR Code Name *
               </label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="input-field"
-                placeholder="e.g., Table 5, Main Entrance, VIP Section"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-base transition-all duration-200"
+                  placeholder="e.g., Table 5, Main Entrance, VIP Section"
+                />
+                <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                  <span className="text-xs">{formData.name.length}/50</span>
+                </span>
+              </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <span className="bg-gradient-to-r from-primary-600 to-primary-700 h-4 w-1 rounded-full mr-2"></span>
                 Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="input-field"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-base transition-all duration-200"
                 rows={3}
                 placeholder="Optional description for internal reference"
               />
             </div>
             
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="isActive"
-                checked={formData.isActive}
-                onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              />
-              <label htmlFor="isActive" className="ml-2 text-sm text-gray-700">
-                QR Code is active and ready to use
-              </label>
+            <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
+              <div className="flex items-center">
+                <div
+                  className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
+                    formData.isActive ? 'bg-green-500' : 'bg-gray-300'
+                  }`}
+                  onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
+                >
+                  <motion.div
+                    layout
+                    className="bg-white w-4 h-4 rounded-full shadow-md"
+                    animate={{ x: formData.isActive ? 6 : 0 }}
+                  />
+                </div>
+                <label htmlFor="isActive" className="ml-3">
+                  <div className="text-sm font-medium text-gray-900">
+                    {formData.isActive ? 'Active' : 'Inactive'}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {formData.isActive ? 
+                      'QR code is ready to use' : 
+                      'QR code will be created but disabled'
+                    }
+                  </div>
+                </label>
+              </div>
+              <div className={`px-3 py-1 rounded-full text-xs font-medium ${getColorClass(formData.isActive)}`}>
+                {formData.isActive ? 'Ready' : 'Draft'}
+              </div>
             </div>
 
-            <div className="flex justify-end space-x-4 pt-4">
-              <button type="button" onClick={onCancel} className="btn-secondary">
+            <div className="flex justify-end space-x-4 pt-4 border-t border-gray-100 mt-5">
+              <motion.button 
+                type="button" 
+                onClick={onCancel}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="btn-secondary flex items-center"
+              >
                 Cancel
-              </button>
-              <button type="submit" className="btn-primary">
+              </motion.button>
+              <motion.button 
+                type="submit"
+                whileHover={{ scale: 1.03, boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" }}
+                whileTap={{ scale: 0.97 }}
+                className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-6 py-2 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center"
+              >
+                <QrCode className="h-4 w-4 mr-2" />
                 Generate QR Code
-              </button>
+              </motion.button>
             </div>
           </form>
-        </div>
+        </motion.div>
 
         {/* Preview */}
-        <div className="card">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Preview</h3>
-          <div className="text-center">
-            <div className="w-48 h-48 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <QrCode className="h-24 w-24 text-gray-400" />
+        <motion.div 
+          className="overflow-hidden rounded-2xl bg-white p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl"
+          whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+        >
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-secondary-500 to-secondary-600 text-white">
+              <Eye className="h-5 w-5" />
             </div>
-            <h4 className="font-medium text-gray-900">{formData.name || 'QR Code Name'}</h4>
-            <p className="text-sm text-gray-600 mt-1">
+            <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              Preview
+            </h3>
+          </div>
+          <div className="text-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="relative w-52 h-52 bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-100 rounded-lg flex items-center justify-center mx-auto mb-5 shadow-md overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center">
+                <motion.div 
+                  animate={{ 
+                    opacity: [0.7, 1, 0.7],
+                    scale: [0.98, 1, 0.98]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <QrCode className={`h-28 w-28 ${formData.isActive ? 'text-primary-500' : 'text-gray-400'}`} />
+                </motion.div>
+              </div>
+              {formData.isActive && (
+                <div className="absolute bottom-2 right-2">
+                  <div className="flex items-center justify-center h-5 w-5 rounded-full bg-green-500 text-white animate-pulse">
+                    <span className="text-xs">✓</span>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+            <h4 className="font-semibold text-lg bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              {formData.name || 'QR Code Name'}
+            </h4>
+            <p className="text-sm text-gray-600 mt-1 max-w-xs mx-auto">
               {formData.description || 'QR code description will appear here'}
             </p>
-            <div className="mt-4 text-xs text-gray-500">
-              <p>Customers will scan this QR code to:</p>
-              <ul className="mt-2 space-y-1">
-                <li>• Register their information</li>
-                <li>• Set preferences</li>
-                <li>• Receive personalized offers</li>
-                <li>• Get event notifications</li>
-              </ul>
+            <div className="mt-6 py-4 px-5 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+              <p className="text-sm font-medium text-gray-700 mb-3">Customers will scan this QR code to:</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-start space-x-2">
+                  <div className="p-1 rounded-full bg-green-100 text-green-500 mt-0.5">
+                    <Users className="h-3 w-3" />
+                  </div>
+                  <span className="text-xs text-gray-600">Register information</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="p-1 rounded-full bg-blue-100 text-blue-500 mt-0.5">
+                    <MessageSquare className="h-3 w-3" />
+                  </div>
+                  <span className="text-xs text-gray-600">Set preferences</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="p-1 rounded-full bg-purple-100 text-purple-500 mt-0.5">
+                    <Target className="h-3 w-3" />
+                  </div>
+                  <span className="text-xs text-gray-600">Receive offers</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="p-1 rounded-full bg-orange-100 text-orange-500 mt-0.5">
+                    <Calendar className="h-3 w-3" />
+                  </div>
+                  <span className="text-xs text-gray-600">Get notifications</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
