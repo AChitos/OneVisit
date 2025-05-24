@@ -232,7 +232,7 @@ export default function QRCodeManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <DocumentDuplicateIcon className="h-8 w-8 text-purple-500" />
+            <Copy className="h-8 w-8 text-purple-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total Scans</p>
               <p className="text-2xl font-semibold text-gray-900">
@@ -243,7 +243,7 @@ export default function QRCodeManager() {
         </div>
         <div className="card">
           <div className="flex items-center">
-            <QrCodeIcon className="h-8 w-8 text-orange-500" />
+            <QrCode className="h-8 w-8 text-orange-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Avg. Scans</p>
               <p className="text-2xl font-semibold text-gray-900">
@@ -268,7 +268,7 @@ export default function QRCodeManager() {
           <>
             {qrCodes.length === 0 ? (
               <div className="text-center py-12">
-                <QrCodeIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <QrCode className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">No QR codes yet</h3>
                 <p className="text-gray-500 mb-6">Create your first QR code to start collecting customer data</p>
                 <button 
@@ -326,21 +326,21 @@ function QRCodeCard({
             className="p-2 text-gray-400 hover:text-blue-600 rounded-md hover:bg-gray-100"
             title="View Details"
           >
-            <EyeIcon className="h-4 w-4" />
+            <Eye className="h-4 w-4" />
           </button>
           <button
             onClick={onCopy}
             className="p-2 text-gray-400 hover:text-green-600 rounded-md hover:bg-gray-100"
             title="Copy URL"
           >
-            <DocumentDuplicateIcon className="h-4 w-4" />
+            <Copy className="h-4 w-4" />
           </button>
           <button
             onClick={onDelete}
             className="p-2 text-gray-400 hover:text-red-600 rounded-md hover:bg-gray-100"
             title="Delete"
           >
-            <TrashIcon className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -348,7 +348,7 @@ function QRCodeCard({
       {/* QR Code Visual */}
       <div className="flex justify-center mb-4">
         <div className="w-32 h-32 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center">
-          <QrCodeIcon className="h-16 w-16 text-gray-400" />
+          <QrCode className="h-16 w-16 text-gray-400" />
         </div>
       </div>
 
@@ -411,7 +411,7 @@ function QRCodeForm({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <button onClick={onCancel} className="btn-secondary mr-4 flex items-center">
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-2" />
             Back
           </button>
           <h2 className="text-2xl font-bold text-gray-900">Generate New QR Code</h2>
@@ -479,7 +479,7 @@ function QRCodeForm({
           <h3 className="text-lg font-medium text-gray-900 mb-4">Preview</h3>
           <div className="text-center">
             <div className="w-48 h-48 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <QrCodeIcon className="h-24 w-24 text-gray-400" />
+              <QrCode className="h-24 w-24 text-gray-400" />
             </div>
             <h4 className="font-medium text-gray-900">{formData.name || 'QR Code Name'}</h4>
             <p className="text-sm text-gray-600 mt-1">
@@ -533,7 +533,7 @@ function QRCodeDetail({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <button onClick={onBack} className="btn-secondary mr-4 flex items-center">
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-4 w-4 mr-2" />
             Back
           </button>
           <div>
@@ -543,11 +543,11 @@ function QRCodeDetail({
         </div>
         <div className="flex items-center space-x-3">
           <button onClick={downloadQRCode} className="btn-secondary flex items-center">
-            <DownloadIcon className="h-4 w-4 mr-2" />
+            <Download className="h-4 w-4 mr-2" />
             Download
           </button>
           <button onClick={printQRCode} className="btn-secondary flex items-center">
-            <PrinterIcon className="h-4 w-4 mr-2" />
+            <Printer className="h-4 w-4 mr-2" />
             Print
           </button>
           <button onClick={onToggleActive} className="btn-primary">
@@ -562,21 +562,21 @@ function QRCodeDetail({
           <h3 className="text-lg font-medium text-gray-900 mb-4">QR Code</h3>
           <div className="text-center">
             <div className="w-64 h-64 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <QrCodeIcon className="h-32 w-32 text-gray-400" />
+              <QrCode className="h-32 w-32 text-gray-400" />
             </div>
             <div className="space-y-2">
               <button 
                 onClick={downloadQRCode}
                 className="btn-primary mr-2"
               >
-                <DownloadIcon className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4 mr-2" />
                 Download PNG
               </button>
               <button 
                 onClick={printQRCode}
                 className="btn-secondary"
               >
-                <PrinterIcon className="h-4 w-4 mr-2" />
+                <Printer className="h-4 w-4 mr-2" />
                 Print
               </button>
             </div>
@@ -609,7 +609,7 @@ function QRCodeDetail({
                     onClick={() => copyToClipboard(qrCode.code)}
                     className="ml-2 p-1 text-gray-400 hover:text-gray-600"
                   >
-                    <DocumentDuplicateIcon className="h-4 w-4" />
+                    <Copy className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -624,7 +624,7 @@ function QRCodeDetail({
                     onClick={() => copyToClipboard(qrCodeURL)}
                     className="ml-2 p-1 text-gray-400 hover:text-gray-600"
                   >
-                    <DocumentDuplicateIcon className="h-4 w-4" />
+                    <Copy className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -650,7 +650,7 @@ function QRCodeDetail({
             <h3 className="text-lg font-medium text-gray-900 mb-4">Analytics</h3>
             <div className="space-y-4">
               <div className="text-center py-8 text-gray-500">
-                <QrCodeIcon className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                <QrCode className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                 <p className="text-sm">Scan analytics will be displayed here</p>
                 <p className="text-xs">Daily scans, popular times, conversion rates</p>
               </div>

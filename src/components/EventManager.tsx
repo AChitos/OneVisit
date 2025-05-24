@@ -1,21 +1,66 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  PlusIcon, 
-  CalendarIcon,
-  UsersIcon,
-  ClockIcon,
-  MapPinIcon,
-  PencilIcon,
-  TrashIcon,
-  ChevronLeftIcon,
-  EyeIcon,
-  FunnelIcon,
-  ChatBubbleLeftRightIcon
-} from '@heroicons/react/24/outline'
+  Plus, 
+  Calendar,
+  Users,
+  Clock,
+  MapPin,
+  Edit,
+  Trash2,
+  ChevronLeft,
+  Eye,
+  Filter,
+  MessageCircle,
+  Play,
+  Pause,
+  BarChart3,
+  Settings,
+  Search,
+  Star,
+  Ticket
+} from 'lucide-react'
 import { Event } from '@/types'
 import { formatDate, formatDateTime } from '@/utils/helpers'
+import toast from 'react-hot-toast'
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  }
+}
 
 interface EventFormData {
   name: string
@@ -251,14 +296,14 @@ export default function EventManager() {
             onClick={() => setShowFilters(!showFilters)}
             className="btn-secondary flex items-center"
           >
-            <FunnelIcon className="h-4 w-4 mr-2" />
+            <Filter className="h-4 w-4 mr-2" />
             Filters
           </button>
           <button 
             onClick={() => setShowCreateForm(true)}
             className="btn-primary flex items-center"
           >
-            <PlusIcon className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2" />
             Create Event
           </button>
         </div>
@@ -268,7 +313,7 @@ export default function EventManager() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="card">
           <div className="flex items-center">
-            <CalendarIcon className="h-8 w-8 text-blue-500" />
+            <Calendar className="h-8 w-8 text-blue-500" />
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total Events</p>
               <p className="text-2xl font-semibold text-gray-900">{events.length}</p>
