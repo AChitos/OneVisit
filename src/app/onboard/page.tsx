@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import { CheckCircle } from 'lucide-react'
 
 interface FormData {
   name: string
@@ -96,7 +96,7 @@ export default function OnboardingPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <CheckCircleIcon className="mx-auto h-16 w-16 text-green-500 mb-4" />
+          <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome aboard!</h2>
           <p className="text-gray-600 mb-6">
             Thank you for joining us! You'll receive special offers and event notifications via your preferred method.
