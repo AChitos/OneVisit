@@ -179,10 +179,13 @@ export default function OnboardingPage() {
         initial="hidden"
         animate="visible"
       >
-        <div className="bg-primary-600 px-6 py-4">
+        <motion.div 
+          className="bg-primary-600 px-6 py-4"
+          variants={itemVariants}
+        >
           <h1 className="text-2xl font-bold text-white">Welcome to OneVisit</h1>
           <p className="text-primary-100">Join our community and get personalized offers!</p>
-        </div>
+        </motion.div>
         
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
