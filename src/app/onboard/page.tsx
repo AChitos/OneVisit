@@ -168,6 +168,7 @@ export default function OnboardingPage() {
             </p>
           </motion.div>
         </motion.div>
+        </motion.div>
       </div>
     )
   }
