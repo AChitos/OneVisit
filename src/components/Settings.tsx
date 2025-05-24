@@ -978,7 +978,7 @@ export default function Settings() {
         <h4 className="text-md font-medium text-gray-900 mb-4">Payment Method</h4>
         <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
           <div className="flex items-center">
-            <CreditCardIcon className="h-8 w-8 text-gray-400 mr-3" />
+            <CreditCard className="h-8 w-8 text-gray-400 mr-3" />
             <div>
               <p className="text-sm font-medium text-gray-900">•••• •••• •••• 4242</p>
               <p className="text-sm text-gray-500">Expires 12/2025</p>
@@ -998,7 +998,7 @@ export default function Settings() {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <KeyIcon className="h-8 w-8 text-gray-400 mr-3" />
+            <Key className="h-8 w-8 text-gray-400 mr-3" />
             <div>
               <h4 className="text-md font-medium text-gray-900">Password</h4>
               <p className="text-sm text-gray-500">Last changed 3 months ago</p>
@@ -1083,17 +1083,11 @@ export default function Settings() {
   )
 
   return (
-    <motion.div 
-      className="space-y-6"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="space-y-6">
       {/* Header */}
-      <motion.div variants={itemVariants}>
+      <div>
         <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-primary-700 to-gray-800 bg-clip-text text-transparent">Settings</h2>
         <p className="text-gray-600">Manage your account, team, and integrations</p>
-        <p className="text-gray-600">Manage your account and business preferences</p>
       </div>
 
       {/* Tabs */}
@@ -1121,14 +1115,22 @@ export default function Settings() {
       </div>
 
       {/* Tab Content */}
-      <div>
-        {activeTab === 'profile' && renderProfileTab()}
-        {activeTab === 'notifications' && renderNotificationsTab()}
-        {activeTab === 'integrations' && renderIntegrationsTab()}
-        {activeTab === 'team' && renderTeamTab()}
-        {activeTab === 'billing' && renderBillingTab()}
-        {activeTab === 'security' && renderSecurityTab()}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+        >
+          {activeTab === 'profile' && renderProfileTab()}
+          {activeTab === 'notifications' && renderNotificationsTab()}
+          {activeTab === 'integrations' && renderIntegrationsTab()}
+          {activeTab === 'team' && renderTeamTab()}
+          {activeTab === 'billing' && renderBillingTab()}
+          {activeTab === 'security' && renderSecurityTab()}
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }
