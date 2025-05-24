@@ -176,12 +176,12 @@ export default function Settings() {
   })
 
   const tabs = [
-    { id: 'profile', name: 'Business Profile', icon: BuildingStorefrontIcon },
-    { id: 'notifications', name: 'Notifications', icon: BellIcon },
-    { id: 'integrations', name: 'Integrations', icon: CogIcon },
-    { id: 'team', name: 'Team Management', icon: UserIcon },
-    { id: 'billing', name: 'Billing & Plans', icon: CreditCardIcon },
-    { id: 'security', name: 'Security', icon: ShieldCheckIcon }
+    { id: 'profile', name: 'Business Profile', icon: Building },
+    { id: 'notifications', name: 'Notifications', icon: Bell },
+    { id: 'integrations', name: 'Integrations', icon: SettingsIcon },
+    { id: 'team', name: 'Team Management', icon: User },
+    { id: 'billing', name: 'Billing & Plans', icon: CreditCard },
+    { id: 'security', name: 'Security', icon: ShieldCheck }
   ]
 
   const handleProfileSave = () => {
