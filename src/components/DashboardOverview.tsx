@@ -320,16 +320,16 @@ export default function DashboardOverview() {
           whileHover={{ y: -5, scale: 1.01 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
+          <div className="rounded-2xl bg-white p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-900 flex items-center">
-                <Activity className="h-5 w-5 mr-2 text-gray-600" />
+              <h3 className="text-xl font-semibold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent flex items-center">
+                <Activity className="h-5 w-5 mr-2 text-primary-600" />
                 Recent Activity
               </h3>
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="btn btn-sm btn-outline py-1 px-3"
               >
                 View all
               </motion.button>
@@ -343,9 +343,13 @@ export default function DashboardOverview() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-start space-x-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                    whileHover={{ 
+                      x: 6, 
+                      backgroundColor: 'rgba(249, 250, 251, 0.8)' 
+                    }}
+                    className="flex items-start space-x-4 p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 cursor-pointer border border-transparent hover:border-gray-200"
                   >
-                    <div className={`flex-shrink-0 rounded-lg p-2 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')}`}>
+                    <div className={`flex-shrink-0 rounded-lg p-2 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')} shadow-sm`}>
                       <activity.icon className="h-4 w-4 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -368,24 +372,24 @@ export default function DashboardOverview() {
           whileHover={{ y: -5, scale: 1.01 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl transition-all duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-              <Zap className="h-5 w-5 mr-2 text-gray-600" />
+          <div className="rounded-2xl bg-white p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+            <h3 className="text-xl font-semibold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent mb-6 flex items-center">
+              <Zap className="h-5 w-5 mr-2 text-secondary-600" />
               Quick Actions
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {quickActions.map((action, index) => {
                 const colorClasses = getColorClasses(action.color)
                 return (
                   <motion.button
                     key={action.name}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileHover={{ scale: 1.03, x: 6 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={action.action}
-                    className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+                    className="w-full text-left p-4 rounded-xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
                   >
                     <div className="flex items-center">
-                      <div className={`rounded-lg p-2 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')} group-hover:scale-110 transition-transform duration-200`}>
+                      <div className={`rounded-full p-3 bg-gradient-to-br ${colorClasses.split(' ').slice(0, 2).join(' ')} shadow-md group-hover:scale-110 transition-transform duration-200`}>
                         <action.icon className="h-5 w-5 text-white" />
                       </div>
                       <div className="ml-4">

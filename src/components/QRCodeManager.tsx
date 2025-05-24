@@ -197,56 +197,103 @@ export default function QRCodeManager() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">QR Code Management</h2>
-          <p className="text-gray-600">Generate and manage QR codes for customer onboarding</p>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent flex items-center">
+            <QrCode className="h-6 w-6 mr-2 text-primary-600" />
+            QR Code Management
+          </h2>
+          <p className="text-gray-600 mt-1">Generate and manage QR codes for customer onboarding</p>
         </div>
-        <button 
+        <motion.button 
           onClick={() => setShowCreateForm(true)}
-          className="btn-primary flex items-center mt-4 sm:mt-0"
-        >            <Plus className="h-4 w-4 mr-2" />
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="btn-primary flex items-center mt-4 sm:mt-0 bg-gradient-to-r from-primary-600 to-secondary-600 px-6 py-3 shadow-lg"
+        >
+          <div className="bg-white/20 rounded-full p-1 mr-2">
+            <Plus className="h-4 w-4" />
+          </div>
           Generate QR Code
-        </button>
+        </motion.button>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card">
-          <div className="flex items-center">
-            <QrCode className="h-8 w-8 text-blue-500" />
+        <motion.div 
+          whileHover={{ y: -5, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="bg-white rounded-xl p-5 shadow-md border border-primary-100 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute right-0 top-0 h-24 w-24 -mt-6 -mr-6 opacity-10">
+            <QrCode className="h-full w-full text-primary-500" />
+          </div>
+          <div className="flex items-center relative z-10">
+            <div className="rounded-full p-2.5 bg-gradient-to-br from-primary-100 to-primary-200 border border-primary-200">
+              <QrCode className="h-6 w-6 text-primary-600" />
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total QR Codes</p>
-              <p className="text-2xl font-semibold text-gray-900">{qrCodes.length}</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-primary-700 to-primary-800 bg-clip-text text-transparent">{qrCodes.length}</p>
             </div>
           </div>
-        </div>
-        <div className="card">
-          <div className="flex items-center">
-            <Eye className="h-8 w-8 text-green-500" />
+        </motion.div>
+        
+        <motion.div 
+          whileHover={{ y: -5, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="bg-white rounded-xl p-5 shadow-md border border-success-100 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute right-0 top-0 h-24 w-24 -mt-6 -mr-6 opacity-10">
+            <Eye className="h-full w-full text-success" />
+          </div>
+          <div className="flex items-center relative z-10">
+            <div className="rounded-full p-2.5 bg-gradient-to-br from-green-100 to-green-200 border border-green-200">
+              <Eye className="h-6 w-6 text-success" />
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Active QR Codes</p>
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
                 {qrCodes.filter(qr => qr.isActive).length}
               </p>
             </div>
           </div>
-        </div>
-        <div className="card">
-          <div className="flex items-center">
-            <Copy className="h-8 w-8 text-purple-500" />
+        </motion.div>
+        
+        <motion.div 
+          whileHover={{ y: -5, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="bg-white rounded-xl p-5 shadow-md border border-secondary-100 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute right-0 top-0 h-24 w-24 -mt-6 -mr-6 opacity-10">
+            <Copy className="h-full w-full text-secondary-500" />
+          </div>
+          <div className="flex items-center relative z-10">
+            <div className="rounded-full p-2.5 bg-gradient-to-br from-secondary-100 to-secondary-200 border border-secondary-200">
+              <Copy className="h-6 w-6 text-secondary-600" />
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Total Scans</p>
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-2xl font-bold bg-gradient-to-r from-secondary-700 to-secondary-800 bg-clip-text text-transparent">
                 {qrCodes.reduce((sum, qr) => sum + qr.scansCount, 0)}
               </p>
             </div>
           </div>
-        </div>
-        <div className="card">
-          <div className="flex items-center">
-            <QrCode className="h-8 w-8 text-orange-500" />
+        </motion.div>
+        
+        <motion.div 
+          whileHover={{ y: -5, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="bg-white rounded-xl p-5 shadow-md border border-warning-100 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute right-0 top-0 h-24 w-24 -mt-6 -mr-6 opacity-10">
+            <BarChart3 className="h-full w-full text-warning" />
+          </div>
+          <div className="flex items-center relative z-10">
+            <div className="rounded-full p-2.5 bg-gradient-to-br from-amber-100 to-amber-200 border border-amber-200">
+              <BarChart3 className="h-6 w-6 text-warning" />
+            </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-500">Avg. Scans</p>
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-amber-700 bg-clip-text text-transparent">
                 {qrCodes.length > 0 
                   ? Math.round(qrCodes.reduce((sum, qr) => sum + qr.scansCount, 0) / qrCodes.length)
                   : 0
@@ -254,29 +301,88 @@ export default function QRCodeManager() {
               </p>
             </div>
           </div>
+        </motion.div>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="card bg-white/80 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="relative flex-1">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="input-field pl-10"
+              placeholder="Search by name or code..."
+            />
+          </div>
+          <div className="flex space-x-3">
+            <div className="relative">
+              <select className="input-field appearance-none pr-10 py-2.5">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <Filter className="h-4 w-4 text-gray-400" />
+              </div>
+            </div>
+            <div className="relative">
+              <select className="input-field appearance-none pr-10 py-2.5">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="most-scans">Most Scans</option>
+                <option value="least-scans">Least Scans</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-gray-400">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* QR Code Grid */}
-      <div className="card">
+      <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
         {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            <p className="text-gray-500 mt-4">Loading QR codes...</p>
+          <div className="text-center py-16 px-6">
+            <motion.div
+              animate={{ 
+                rotate: 360,
+                borderColor: ['#0ea5e9', '#8b5cf6', '#10b981', '#0ea5e9'],
+                borderTopColor: 'transparent'
+              }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: Infinity, 
+                ease: "linear",
+              }}
+              className="rounded-full h-16 w-16 border-4 border-primary-600 mx-auto"
+            />
+            <p className="text-gray-600 mt-6 text-lg font-medium">Loading QR codes...</p>
+            <p className="text-gray-500 text-sm">This will just take a moment</p>
           </div>
         ) : (
           <>
             {qrCodes.length === 0 ? (
-              <div className="text-center py-12">
-                <QrCode className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No QR codes yet</h3>
-                <p className="text-gray-500 mb-6">Create your first QR code to start collecting customer data</p>
-                <button 
+              <div className="text-center p-16 bg-gradient-to-br from-gray-50 to-white">
+                <div className="bg-gradient-to-br from-primary-50 to-secondary-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary-100">
+                  <QrCode className="h-12 w-12 text-primary-500" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-primary-700 to-secondary-700 bg-clip-text text-transparent">No QR codes yet</h3>
+                <p className="text-gray-500 mb-8 max-w-md mx-auto">Create your first QR code to start collecting customer data and enhancing your business connections</p>
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setShowCreateForm(true)}
-                  className="btn-primary"
+                  className="btn btn-primary btn-lg px-8 py-3 shadow-xl"
                 >
+                  <Plus className="h-5 w-5 mr-2" />
                   Generate First QR Code
-                </button>
+                </motion.button>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -314,63 +420,92 @@ function QRCodeCard({
   onCopy: () => void
 }) {
   return (
-    <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-4">
+    <motion.div 
+      whileHover={{ y: -5, scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+    >
+      {/* Status Badge - Top Right */}
+      <div className="absolute top-4 right-4">
+        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
+          qrCode.isActive 
+            ? 'bg-green-100 text-green-800 border border-green-200' 
+            : 'bg-gray-100 text-gray-600 border border-gray-200'
+        }`}>
+          {qrCode.isActive ? 'Active' : 'Inactive'}
+        </span>
+      </div>
+
+      <div className="flex items-start mb-6">
         <div className="flex-1">
-          <h3 className="text-lg font-medium text-gray-900">{qrCode.name}</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{qrCode.name}</h3>
           <p className="text-sm text-gray-600 mt-1">{qrCode.description || 'No description'}</p>
-        </div>
-        <div className="flex items-center space-x-1">
-          <button
-            onClick={onView}
-            className="p-2 text-gray-400 hover:text-blue-600 rounded-md hover:bg-gray-100"
-            title="View Details"
-          >
-            <Eye className="h-4 w-4" />
-          </button>
-          <button
-            onClick={onCopy}
-            className="p-2 text-gray-400 hover:text-green-600 rounded-md hover:bg-gray-100"
-            title="Copy URL"
-          >
-            <Copy className="h-4 w-4" />
-          </button>
-          <button
-            onClick={onDelete}
-            className="p-2 text-gray-400 hover:text-red-600 rounded-md hover:bg-gray-100"
-            title="Delete"
-          >
-            <Trash2 className="h-4 w-4" />
-          </button>
         </div>
       </div>
 
       {/* QR Code Visual */}
-      <div className="flex justify-center mb-4">
-        <div className="w-32 h-32 bg-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center">
-          <QrCode className="h-16 w-16 text-gray-400" />
+      <div className="flex justify-center mb-5 relative group">
+        <div className="w-36 h-36 bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-lg flex items-center justify-center shadow-sm">
+          <QrCode className="h-20 w-20 text-primary-600" />
+          
+          {/* Hover Overlay with Actions */}
+          <div className="absolute inset-0 bg-black/60 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity duration-200">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onView}
+              className="p-2 bg-white/90 text-primary-600 rounded-full hover:bg-white shadow-md"
+              title="View Details"
+            >
+              <Eye className="h-4 w-4" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onCopy}
+              className="p-2 bg-white/90 text-success rounded-full hover:bg-white shadow-md"
+              title="Copy URL"
+            >
+              <Copy className="h-4 w-4" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onDelete}
+              className="p-2 bg-white/90 text-error rounded-full hover:bg-white shadow-md"
+              title="Delete"
+            >
+              <Trash2 className="h-4 w-4" />
+            </motion.button>
+          </div>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="flex items-center justify-between text-sm mb-4">
-        <div>
-          <span className="text-gray-500">Scans:</span>
-          <span className="font-medium text-gray-900 ml-1">{qrCode.scansCount}</span>
+      <div className="grid grid-cols-2 gap-4 mb-5">
+        <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg p-3 border border-primary-200">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-primary-700">Total Scans</span>
+            <Eye className="h-3 w-3 text-primary-600" />
+          </div>
+          <div className="text-lg font-bold text-primary-800 mt-1">{qrCode.scansCount}</div>
         </div>
-        <div>
-          <span className="text-gray-500">Created:</span>
-          <span className="font-medium text-gray-900 ml-1">{formatDate(qrCode.createdAt)}</span>
+        <div className="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-lg p-3 border border-secondary-200">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-secondary-700">Created</span>
+            <Calendar className="h-3 w-3 text-secondary-600" />
+          </div>
+          <div className="text-sm font-medium text-secondary-800 mt-1">{formatDate(qrCode.createdAt)}</div>
         </div>
       </div>
 
-      {/* Status & Actions */}
-      <div className="flex items-center justify-between">
+      {/* Footer Actions */}
+      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
         <div className="flex items-center">
           <button
             onClick={onToggleActive}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              qrCode.isActive ? 'bg-green-600' : 'bg-gray-200'
+              qrCode.isActive ? 'bg-success' : 'bg-gray-200'
             }`}
           >
             <span
@@ -379,18 +514,20 @@ function QRCodeCard({
               }`}
             />
           </button>
-          <span className={`ml-2 text-sm ${qrCode.isActive ? 'text-green-600' : 'text-gray-500'}`}>
-            {qrCode.isActive ? 'Active' : 'Inactive'}
+          <span className="ml-2 text-sm text-gray-600">
+            Toggle Status
           </span>
         </div>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onView}
-          className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+          className="btn btn-sm btn-outline text-sm"
         >
           View Details
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
