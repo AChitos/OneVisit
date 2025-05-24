@@ -1,0 +1,262 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  password          String
+  name              String
+  role              Role     @default(BUSINESS_OWNER)
+  businessId        String?
+  business          Business? @relation(fields: [businessId], references: [id])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLogin         DateTime?
+  
+  // SaaS subscription info
+  subscriptionTier  SubscriptionTier @default(FREE_TRIAL)
+  trialEndsAt       DateTime?
+  subscriptionEndsAt DateTime?
+  stripeCustomerId  String?
+  
+  campaigns         Campaign[]
+  
+  @@map("users")
+}
+
+model Business {
+  id          String   @id @default(cuid())
+  name        String
+  industry    String?
+  address     String?
+  phone       String?
+  email       String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  users       User[]
+  customers   Customer[]
+  campaigns   Campaign[]
+  events      Event[]
+  qrCodes     QRCode[]
+  analytics   Analytics[]
+  
+  @@map("businesses")
+}
+
+model Customer {
+  id            String    @id @default(cuid())
+  name          String
+  phone         String    @unique
+  email         String?
+  dateOfBirth   DateTime?
+  gender        Gender?
+  preferences   Json?     // Stores drink preferences, event types, etc.
+  consentGiven  Boolean   @default(false)
+  consentDate   DateTime?
+  businessId    String
+  business      Business  @relation(fields: [businessId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastVisit     DateTime?
+  visitCount    Int       @default(0)
+  totalSpent    Float     @default(0)
+  
+  visits        Visit[]
+  messages      Message[]
+  campaignTargets CampaignTarget[]
+  
+  @@map("customers")
+}
+
+model QRCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String   // e.g., "Table 5", "Main Entrance"
+  description String?
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  isActive    Boolean  @default(true)
+  scansCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  visits      Visit[]
+  
+  @@map("qr_codes")
+}
+
+model Visit {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  qrCodeId   String?
+  qrCode     QRCode?  @relation(fields: [qrCodeId], references: [id])
+  visitDate  DateTime @default(now())
+  duration   Int?     // in minutes
+  amountSpent Float?
+  notes      String?
+  
+  @@map("visits")
+}
+
+model Campaign {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          CampaignType
+  status        CampaignStatus @default(DRAFT)
+  businessId    String
+  business      Business @relation(fields: [businessId], references: [id])
+  createdById   String
+  createdBy     User     @relation(fields: [createdById], references: [id])
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Message content
+  messageTemplate String
+  messageType     MessageType @default(SMS)
+  
+  // Targeting
+  targetSegment   Json?        // Stores targeting criteria
+  
+  targets         CampaignTarget[]
+  messages        Message[]
+  analytics       CampaignAnalytics[]
+  
+  @@map("campaigns")
+}
+
+model CampaignTarget {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  
+  @@unique([campaignId, customerId])
+  @@map("campaign_targets")
+}
+
+model Message {
+  id         String        @id @default(cuid())
+  customerId String
+  customer   Customer      @relation(fields: [customerId], references: [id])
+  campaignId String?
+  campaign   Campaign?     @relation(fields: [campaignId], references: [id])
+  type       MessageType
+  content    String
+  status     MessageStatus @default(PENDING)
+  sentAt     DateTime?
+  deliveredAt DateTime?
+  readAt     DateTime?
+  errorMessage String?
+  externalId String?       // Twilio message SID, WhatsApp message ID, etc.
+  createdAt  DateTime      @default(now())
+  
+  @@map("messages")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  eventType   String   // e.g., "Live Music", "Happy Hour", "Special Offer"
+  startDate   DateTime
+  endDate     DateTime?
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("events")
+}
+
+model Analytics {
+  id            String     @id @default(cuid())
+  businessId    String
+  business      Business   @relation(fields: [businessId], references: [id])
+  date          DateTime   @default(now())
+  metric        String     // e.g., "new_customers", "message_sent", "qr_scans"
+  value         Float
+  metadata      Json?      // Additional context for the metric
+  
+  @@map("analytics")
+}
+
+model CampaignAnalytics {
+  id            String   @id @default(cuid())
+  campaignId    String
+  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  date          DateTime @default(now())
+  messagesSent  Int      @default(0)
+  messagesDelivered Int  @default(0)
+  messagesRead  Int      @default(0)
+  clickCount    Int      @default(0)
+  conversionCount Int    @default(0)
+  
+  @@map("campaign_analytics")
+}
+
+enum Role {
+  ADMIN
+  BUSINESS_OWNER
+  STAFF
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum SubscriptionTier {
+  FREE_TRIAL
+  BASIC
+  PREMIUM
+  ENTERPRISE
+}
+
+enum CampaignType {
+  WELCOME
+  EVENT_INVITE
+  SPECIAL_OFFER
+  BIRTHDAY
+  WIN_BACK
+  GENERAL
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  CANCELLED
+}
+
+enum MessageType {
+  SMS
+  WHATSAPP
+  EMAIL
+}
+
+enum MessageStatus {
+  PENDING
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
