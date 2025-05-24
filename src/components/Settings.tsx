@@ -232,20 +232,20 @@ export default function Settings() {
             onClick={() => setIsEditing(true)}
             className="btn-primary flex items-center"
           >
-            <PencilIcon className="h-4 w-4 mr-2" />
+            <Edit className="h-4 w-4 mr-2" />
             Edit Profile
           </button>
         ) : (
           <div className="flex space-x-2">
             <button onClick={handleProfileSave} className="btn-primary flex items-center">
-              <CheckIcon className="h-4 w-4 mr-2" />
+              <Check className="h-4 w-4 mr-2" />
               Save Changes
             </button>
             <button 
               onClick={() => setIsEditing(false)}
               className="btn-secondary flex items-center"
             >
-              <XMarkIcon className="h-4 w-4 mr-2" />
+              <X className="h-4 w-4 mr-2" />
               Cancel
             </button>
           </div>
@@ -389,7 +389,7 @@ export default function Settings() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <EnvelopeIcon className="h-5 w-5 text-gray-400 mr-3" />
+              <Mail className="h-5 w-5 text-gray-400 mr-3" />
               <div>
                 <p className="text-sm font-medium text-gray-900">Email Notifications</p>
                 <p className="text-sm text-gray-500">Receive updates via email</p>
@@ -409,7 +409,7 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <DevicePhoneMobileIcon className="h-5 w-5 text-gray-400 mr-3" />
+              <Smartphone className="h-5 w-5 text-gray-400 mr-3" />
               <div>
                 <p className="text-sm font-medium text-gray-900">SMS Notifications</p>
                 <p className="text-sm text-gray-500">Receive alerts via SMS</p>
@@ -429,7 +429,7 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <BellIcon className="h-5 w-5 text-gray-400 mr-3" />
+              <Bell className="h-5 w-5 text-gray-400 mr-3" />
               <div>
                 <p className="text-sm font-medium text-gray-900">Push Notifications</p>
                 <p className="text-sm text-gray-500">Browser push notifications</p>
